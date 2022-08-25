@@ -1,10 +1,11 @@
 <b>Запуск проекта:</b><br />
 <p>
   1) установка зависимостей - pip install -r req.txt <br />
-  2) python manage.py migrate - применяем миграции <br />
-  3) python manage.py createsuperuser - создание супер юзера для работы в админ
+  2) в файле .env установите ваши учетные данные
+  3) python manage.py migrate - применяем миграции <br />
+  4) python manage.py createsuperuser - создание супер юзера для работы в админ
   панели <br />
-  4) python manage runserver - старт проекта 5) http://127.0.0.1:8000/api/parse/
+  5) python manage runserver - старт проекта 5) http://127.0.0.1:8000/api/parse/
   - перейдите по ссылке для наполнения БД актуальными новостями <br />
 </p>
 <br />
