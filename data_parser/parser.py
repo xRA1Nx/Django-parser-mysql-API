@@ -1,9 +1,16 @@
 import requests
+import datetime
+import locale
 from unicodedata import normalize
 from bs4 import BeautifulSoup
 
+locale.setlocale(locale.LC_TIME, '')  # the ru locale is installed
+
 
 def get_yandex_data() -> list:
+    def get_clean_data(tag):
+        return normalize("NFKC", tag.getText(strip=True))
+
     yandex_main_url = 'https://market.yandex.ru/partners/news'
     req = requests.get(yandex_main_url).content
     s = BeautifulSoup(req, 'lxml')
@@ -13,10 +20,10 @@ def get_yandex_data() -> list:
 
         # получаем заголовок статьи
         link = div.find('a')
-        title = normalize("NFKD", link.div.getText())
+        title = get_clean_data(link.div)
 
         # получаем описание статьи
-        description = normalize("NFKD", div.p.getText())
+        description = get_clean_data(div.p)
 
         """
         проваливаемся внутрь статьи для получения остальных данных
@@ -28,15 +35,21 @@ def get_yandex_data() -> list:
 
         # получаем таги
         div_tags = soup.find('div', 'news-info__tags')
-        tags = [tag.getText() for tag in
+        tags = [tag.getText().title().strip('#') for tag in
                 div_tags.find_all('a')]
         tags_a_for_clean = soup.find_all('a')
 
         # убираем все ссылки из статьи для получения чистого текста статьи
         for a in tags_a_for_clean:
             a.extract()
-        date = soup.time.getText()
-        post = normalize("NFKD", soup.find('div', class_='news-info__post-body html-content page-content').getText())
+
+        # преобразуем полученные данные в формат даты
+        temp_date = soup.time.getText().split()
+        temp_date[1] = temp_date[1][:3]
+        temp_date = ' '.join(temp_date)
+        date = datetime.datetime.strptime(temp_date, '%d %b %Y').date().strftime("%Y-%m-%d")
+
+        post = get_clean_data(soup.find('div', class_='news-info__post-body html-content page-content'))
 
         # формируем словарь с данными новости
         div_dict = {
@@ -44,7 +57,8 @@ def get_yandex_data() -> list:
             'title': title,
             'date': date,
             'text': post,
-            'tags': tags
+            'tags': tags,
+            'source': 'ya',
         }
         ya_list.append(div_dict)
 
