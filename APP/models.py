@@ -24,6 +24,10 @@ class Post(models.Model):
     source = models.CharField(choices=choises, max_length=2)
     tags = models.ManyToManyField(Tag, through='NewsTags')
 
+    def __str__(self):
+        return self.title
+
+
     class Meta:
         ordering = ['-date']
         constraints = [
