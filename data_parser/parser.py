@@ -3,6 +3,7 @@ import datetime
 import locale
 from unicodedata import normalize
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 
 locale.setlocale(locale.LC_TIME, '')  # the ru locale is installed
 
@@ -65,25 +66,18 @@ def get_yandex_data() -> list:
     return ya_list
 
 
+def get_ozon_news():
+    main_url = 'https://seller.ozon.ru/news/'
+    header = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'
+    r = requests.get(main_url, headers={'User-Agent': UserAgent().opera})
+    # r = requests.get(main_url, headers={'User-Agent': header})
+    print(r)  # Response [403]
 
-# def get_ozon_news():
-#     main_url = 'https://seller.ozon.ru/news/'
-#
-#     r = requests.get(main_url).content
-#
-#     soup = BeautifulSoup(r, 'lxml')
-#
-#     body = soup.body
-#
-#     noux = body.find('div', id='__nuxt')
-#     print(noux)
-#     section = soup.find('section', class_='news-list')
-#
-#
-#     # news_div = s.find_all('div', class_='news-card')[:10]
-#     # for div in news_div:
-#     #     date = div.find('span', class_='news-card__date')
-#     #     print(date)
-#
-#
-# get_ozon_news()
+    soup = BeautifulSoup(r.content, 'lxml')
+    news_div = soup.find_all('div', class_='news-card')[:10]
+    for div in news_div:
+        date = div.find('span', class_='news-card__date')
+        print(date)
+
+
+get_ozon_news()
