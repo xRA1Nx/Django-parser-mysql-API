@@ -1,7 +1,8 @@
 import django_filters
 from django.db.models import Q
 from rest_framework.response import Response
-from data_parser.parser import get_yandex_data
+from data_parser.yandex import get_yandex_data
+from data_parser.ozon import get_ozon_data
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from APP.models import Post, Tag
@@ -17,7 +18,7 @@ class ParserView(APIView):
     def get(self, request):
         query_tags = Tag.objects.all()
         query_posts = Post.objects.all()
-        data = get_yandex_data()
+        data = get_yandex_data() + get_ozon_data()
         tag_set = set()
 
         # формируем уникальное множество тагов
