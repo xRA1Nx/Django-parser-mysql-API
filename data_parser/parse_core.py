@@ -15,11 +15,5 @@ def convert_str_to_date(str_to_date):
         temp_date.append('2022')
     temp_date[1] = temp_date[1][:3]
     temp_date = ' '.join(temp_date)
+    print(temp_date)
     return datetime.datetime.strptime(temp_date, '%d %b %Y').date().strftime("%Y-%m-%d")
-
-
-# def convert_tags(tag_list):
-#     if tag_list:
-#         return [tag.getText().title().strip('#') for tag in tag_list]
-#     else:
-#         return ['Другое']

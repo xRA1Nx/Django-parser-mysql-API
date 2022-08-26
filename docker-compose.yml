@@ -1,0 +1,28 @@
+services:
+
+  web:
+    build: .
+    container_name: app
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    container_name: db_mysql
+    image: mysql
+    environment:
+      MYSQL_DATABASE: 'popso'
+      MYSQL_USER: 'test'
+      MYSQL_PASSWORD: 'test'
+      MYSQL_ROOT_PASSWORD: 'test'
+    restart: always
+    volumes:
+#      -  ./db_backup/db.backup:/db.backup
+      - ./db_django:/var/lib/mysql
+
+

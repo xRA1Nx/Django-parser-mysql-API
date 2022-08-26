@@ -1,5 +1,5 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-import datetime
 import os.path
 from bs4 import BeautifulSoup
 from data_parser.parse_core import get_clean_data, convert_str_to_date

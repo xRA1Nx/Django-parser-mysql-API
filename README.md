@@ -1,15 +1,15 @@
-<h3><span style={color:red}>UPD!</span> Проект завернут в контейнер и разположен в отдельной ветке - https://github.com/xRA1Nx/Django-parser-mysql-API/tree/container</h3>
-
-<b>Запуск проекта:</b><br />
+<b>Запуск проекта(поступательно):</b><br />
 <p>
-  1) в settings.py укажите ваш SECRET KEY<br>
-  2) установка зависимостей - pip install -r req.txt <br />
-  3) в файле .env установите ваши учетные данные
-  4) python manage.py migrate - применяем миграции <br />
-  5) python manage.py createsuperuser - создание супер юзера для работы в админ
-  панели <br />
-  6) python manage runserver - старт проекта 5) http://127.0.0.1:8000/api/parse/
-  - перейдите по ссылке для наполнения БД актуальными новостями <br />
+  1) в settings.py укажите ваш SECRET KEY <br>
+  2) docker-compose up  - (Предзапуск проекта)    <br />
+  3) введите следующие команды во 2-й консоли :<br>
+    - docker exec -i app python manage.py migrate (применяем миграции)<br> 
+    - docker-compose down - останавливаем контенер, для дальнейшего перезапуска с примененными миграциями<br>
+  4) docker-compose up -d - (-d = запуск проекта в фоновом режиме) <br>
+  5) docker compose run web python manage.py createsuperuser  - создание супер юзера для работы в админ  панели (<b>выполнять при запущенном compose</b> <br />
+  6) http://127.0.0.1:8000/api/parse/  - перейдите по ссылке для наполнения БД актуальными новостями   <br>
+   <br />
+
 </p>
 <br />
 
