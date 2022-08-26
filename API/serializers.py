@@ -9,7 +9,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TagForPostSerializer(serializers.ModelSerializer):
-    name = serializers.MultipleChoiceField(choices=Tag.get_choices())
+    # name = serializers.MultipleChoiceField(choices=Tag.get_choices())
 
     class Meta:
         model = Tag

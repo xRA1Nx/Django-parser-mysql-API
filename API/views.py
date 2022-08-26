@@ -1,4 +1,3 @@
-import django_filters
 from django.db.models import Q
 from rest_framework.response import Response
 from data_parser.yandex import get_yandex_data
@@ -10,12 +9,14 @@ from .serializers import PostSerializer, PostListSerializer, PostAddSerializer, 
 from .paginators import PostPaginator, TagPaginator
 from .filters import PostFilter
 from django_filters.rest_framework import DjangoFilterBackend
+import locale
 
 
 # Create your views here.
 class ParserView(APIView):
 
     def get(self, request):
+        print(locale.getlocale())
         query_tags = Tag.objects.all()
         query_posts = Post.objects.all()
         data = get_yandex_data() + get_ozon_data()
@@ -59,6 +60,7 @@ class PostApiView(viewsets.ModelViewSet):
     pagination_class = PostPaginator
     filter_backends = [DjangoFilterBackend]
     filterset_class = PostFilter
+
     # filterset_fields = ['tags', 'date']
 
     def get_serializer_class(self):
