@@ -17,7 +17,7 @@ def get_ozon_data():
     soup = BeautifulSoup(data.encode(), "lxml")
 
     divs = soup.find_all('div', class_="news-card")[:10]
-    for i in range(1, 10):
+    for i in range(10):
         div = divs[i]
 
         # Получаем Заголовок
@@ -41,7 +41,6 @@ def get_ozon_data():
 
         post_section = post_soup.find('section', class_='new-section html-content_Ol8P9')
         post = get_clean_data(post_section)
-        print(post)
 
         # первый параграф - краткое описание статьи
         p = post_section.find('p')
